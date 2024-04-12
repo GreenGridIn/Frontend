@@ -61,7 +61,7 @@ function Home() {
               className="flex flex-col items-start gap-6 justify-center"
             >
               <div className="relative">
-                <p className="font-semibold text-black text-lg p-4  bg-white backdrop-blur-md bg-opacity-0 rounded-lg ">
+                <p className="font-semibold text-white text-lg p-4  bg-white backdrop-blur-md bg-opacity-0 rounded-lg ">
                   Struggling to harness the full potential of your wind farm? We
                   can help. Our platform uses advanced AI to predict power
                   generation, optimize turbine performance, and deliver in-depth

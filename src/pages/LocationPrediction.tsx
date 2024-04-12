@@ -1,5 +1,6 @@
 import Navbar from "@/components/custom/Navbar";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { GiPaperWindmill } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 import {
@@ -30,6 +31,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { FaSearchLocation } from "react-icons/fa";
 
 type formdata = {
   Air_temperature: string;
@@ -37,7 +39,7 @@ type formdata = {
   Wind_speed: string;
 };
 
-function Prediction() {
+function LocationPrediction() {
   const [formData, setFormData] = useState<formdata>({
     Air_temperature: "",
     Pressure: "",
@@ -46,59 +48,54 @@ function Prediction() {
 
   const [prediction, setPrediction] = useState<string>("");
 
+
+  // const { isLoaded } = useJsApiLoader({
+  //   id: "google-map-script",
+  //   googleMapsApiKey: import.meta.env.VITE_GOOGLE_PLACES_API_KEY,
+  //   libraries: ["places"],
+  // });
+
+  const [searchResult, setSearchResult] =
+    useState<google.maps.places.Autocomplete>();
+
+  function onLoad(autocomplete: google.maps.places.Autocomplete) {
+    setSearchResult(autocomplete);
+  }
+
+  function locationSelected() {
+    if (searchResult) {
+      const place = searchResult.getPlace();
+      console.log("Search : ", place);
+      const latitude = place.geometry?.location?.lat();
+      const longitude = place.geometry?.location?.lng();
+      console.log(latitude,longitude);
+      
+    }
+  }
+
   return (
     <div className="">
       <Navbar />
       <div className="bg-black">
-        <section className="container grid grid-cols-1 lg:grid-cols-2 py-28 gap-8  w-full">
-          <div className="flex flex-col items-center justify-center">
-            <p className="font-light text-white text-lg p-4  bg-gray-800 backdrop-blur-md bg-opacity-50 rounded-lg ">
-              Uncertain wind conditions can make it challenging to predict power
-              generation from your windmill. But what if you could leverage
-              cutting-edge technology to make informed decisions? Our website
-              offers a powerful tool that utilizes a machine learning model to
-              predict your windmill's power output based on real-time data.
-            </p>
-            <div className="p-4">
-              <h3 className="text-green-600 font-bold text-2xl mb-4">
-                How it Works:
-              </h3>
-              <h5 className="text-green-200 font-semibold text-lg mb-2">
-                Our model takes three key environmental factors into account:
-              </h5>
-              <ul className="flex flex-col items-center gap-4">
-                <li className="text-green-50 flex items-center gap-8">
-                  <div className="p-1">
-                    <MdWindPower className="text-green-400 text-4xl" />
-                  </div>
-                  <p>
-                    <span className=" text-green-400">Wind Speed:</span> As the
-                    primary driver of windmill power, wind speed is crucial for
-                    accurate predictions.
-                  </p>
-                </li>
-                <li className="text-green-50 flex items-center gap-8">
-                  <div className="p-1">
-                    <LuWind className="text-green-400 text-4xl" />
-                  </div>
-                  <p>
-                    <span className=" text-green-400">Air Pressure:</span> Air
-                    pressure influences wind speed. Higher pressure often
-                    indicates calmer conditions, while lower pressure can
-                    suggest stronger winds.
-                  </p>
-                </li>
-                <li className="text-green-50 flex items-center gap-8">
-                  <div className="p-1">
-                    <FaTemperatureHigh className="text-green-400 text-4xl" />
-                  </div>
-                  <p>
-                    <span className=" text-green-400">Temperature:</span> While
-                    not as direct an impact as wind speed, temperature can
-                    affect air density, and therefore, wind turbine efficiency.
-                  </p>
-                </li>
-              </ul>
+        <section className="container grid grid-cols-1 lg:grid-cols-2 py-28 gap-8 h-screen  w-full">
+          <div className="flex items-center justify-center">
+            <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white overflow-hidden">
+              <div className="grid place-items-center h-full w-12 text-gray-300">
+                <FaSearchLocation className="text-black text-xl" />
+              </div>
+
+              <Autocomplete
+                onLoad={onLoad}
+                onPlaceChanged={locationSelected}
+                className="w-full"
+              >
+                <input
+                  className="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
+                  type="text"
+                  id="search"
+                  placeholder="Search location..."
+                />
+              </Autocomplete>
             </div>
           </div>
           <div className="flex items-center justify-center">
@@ -106,7 +103,7 @@ function Prediction() {
               <CardHeader>
                 <CardTitle>Predict power generation</CardTitle>
                 <CardDescription className="flex flex-col items-center gap-1">
-                  <p>Enter the current data to predict power generation</p>
+                  Enter the current data to predict power generation
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -158,4 +155,4 @@ function Prediction() {
   );
 }
 
-export default Prediction;
+export default LocationPrediction;
