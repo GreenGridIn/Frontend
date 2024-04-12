@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, MouseEvent } from "react";
 import { Button } from "../ui/button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { GiPaperWindmill } from "react-icons/gi";
@@ -44,12 +44,15 @@ function Navbar() {
                 </NavLink>
               </li>
             </ul>
-            <div className="pl-8">
-              <Button className="rounded-full flex items-center gap-2 hover:shadow-lg transition-all duration-100 delay-75 ease-in-out bg-gradient-to-br from-white via-green-300 hover:via-green-500 to-green-600 hover:to-green-900" onClick={(e)=>handleClick(e)}>
+            {/* <div className="pl-8">
+              <Button
+                className="rounded-full flex items-center gap-2 hover:shadow-lg transition-all duration-100 delay-75 ease-in-out bg-gradient-to-br from-white via-green-300 hover:via-green-500 to-green-600 hover:to-green-900"
+                onClick={(e) => handleClick(e)}
+              >
                 <FaHandHoldingDollar className="text-yellow-600 text-xl animate-bounce " />
                 <span className="text-black">Get Started!</span>
               </Button>
-            </div>
+            </div> */}
           </div>
         </nav>
       </div>

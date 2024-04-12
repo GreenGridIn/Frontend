@@ -1,6 +1,6 @@
 import Navbar from "@/components/custom/Navbar";
 import bgImage from "@/assets/appolinary-kalashnikova-WYGhTLym344-unsplash.jpg";
-import React, { useEffect, useRef } from "react";
+import React, { MouseEvent, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { GiPaperWindmill } from "react-icons/gi";
 
@@ -8,6 +8,7 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { GoGear } from "react-icons/go";
 import { IoBarChartSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 function Home() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 900], ["0%", "40%"]);
@@ -21,7 +22,11 @@ function Home() {
   const translateOne = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const translateTwo = useTransform(scrollYProgress, [0, 1], ["80%", "0%"]);
   const translateThree = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-
+  const navigate = useNavigate()
+  const handleNavigate = (event:MouseEvent, path:string)=>{
+    event.preventDefault();
+    navigate(path);
+  }
   return (
     <>
       <div className="relative overflow-hidden">
@@ -55,16 +60,19 @@ function Home() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="flex flex-col items-start gap-6 justify-center"
             >
-              <p className="font-semibold text-black text-lg p-4  bg-white bg-opacity-35 rounded-lg">
-                Struggling to harness the full potential of your wind farm? We
-                can help. Our platform uses advanced AI to predict power
-                generation, optimize turbine performance, and deliver in-depth
-                analytics. Unleash the wind's power and maximize your wind
-                farm's potential.
-              </p>
-              <Button className="rounded-full flex items-center gap-2 hover:gap-4 hover:shadow-md transition-all duration-100 delay-75 ease-in-out bg-gradient-to-br from-white via-blue-300 to-blue-600">
+              <div className="relative">
+                <p className="font-semibold text-black text-lg p-4  bg-white backdrop-blur-md bg-opacity-0 rounded-lg ">
+                  Struggling to harness the full potential of your wind farm? We
+                  can help. Our platform uses advanced AI to predict power
+                  generation, optimize turbine performance, and deliver in-depth
+                  analytics. Unleash the wind's power and maximize your wind
+                  farm's potential.
+                </p>
+               
+              </div>
+              <Button className="rounded-full flex items-center gap-2 hover:shadow-lg transition-all duration-100 delay-75 ease-in-out bg-gradient-to-br from-white via-green-300 hover:via-green-500 to-green-600 hover:to-green-900" onClick={(e)=>handleNavigate(e,'/prediction')}>
                 <GiPaperWindmill className="text-green-800 text-xl animate-spin " />
-                <span>Get Started!</span>
+                <span className="text-black">Get Started!</span>
               </Button>
             </motion.div>
           </section>
