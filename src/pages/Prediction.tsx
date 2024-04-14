@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { MdWindPower } from "react-icons/md";
 import { FaTemperatureHigh } from "react-icons/fa";
 import { LuWind } from "react-icons/lu";
+import { LuLoader2 } from "react-icons/lu";
 
 import {
   Dialog,
@@ -37,7 +38,7 @@ function Prediction() {
   const [pressure, setPressure] = useState(0);
   const [windspeed, setWindspeed] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [prediction, setPrediction] = useState(0);
 
   const handleSubmit = (e: FormEvent) => {
@@ -47,7 +48,7 @@ function Prediction() {
       pressure: pressure,
       wind_speed: windspeed,
     };
-
+    setIsLoading(true);
     axios
       .post("/predict", data)
       .then((res) => {
@@ -56,9 +57,11 @@ function Prediction() {
           setPrediction(Number(res.data?.power));
           setIsOpen(true);
         }
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
@@ -166,7 +169,14 @@ function Prediction() {
                       />
                     </div>
                   </div>
-                  <Button type="submit" className="w-full mt-4">
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="w-full mt-4"
+                  >
+                    {isLoading && (
+                      <LuLoader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
                     Predict
                   </Button>
                 </form>
