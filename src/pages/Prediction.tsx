@@ -1,7 +1,6 @@
 import Navbar from "@/components/custom/Navbar";
-import React, { FormEvent, MouseEvent, useState } from "react";
-import { GiPaperWindmill } from "react-icons/gi";
-import { NavLink } from "react-router-dom";
+import { FormEvent, useState } from "react";
+
 import {
   Card,
   CardContent,
@@ -16,12 +15,7 @@ import { Button } from "@/components/ui/button";
 import { MdWindPower } from "react-icons/md";
 import { FaTemperatureHigh } from "react-icons/fa";
 import { LuWind } from "react-icons/lu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+
 import {
   Dialog,
   DialogContent,
@@ -68,9 +62,9 @@ function Prediction() {
       });
   };
 
-  const onClose = ()=>{
+  const onClose = () => {
     setIsOpen(false);
-  }
+  };
 
   return (
     <div className="relative">
@@ -178,7 +172,11 @@ function Prediction() {
                 </form>
               </CardContent>
               <CardFooter className="flex flex-col justify-between">
-                <Dialog onOpenChange={onClose} defaultOpen={false} open={isOpen}>
+                <Dialog
+                  onOpenChange={onClose}
+                  defaultOpen={false}
+                  open={isOpen}
+                >
                   <DialogTrigger></DialogTrigger>
                   <DialogContent>
                     <DialogHeader>

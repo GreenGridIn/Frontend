@@ -1,10 +1,10 @@
 import Navbar from "@/components/custom/Navbar";
 import bgImage from "@/assets/appolinary-kalashnikova-WYGhTLym344-unsplash.jpg";
-import React, { MouseEvent, useEffect, useRef } from "react";
+import { MouseEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { GiPaperWindmill } from "react-icons/gi";
 
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { GoGear } from "react-icons/go";
 import { IoBarChartSharp } from "react-icons/io5";
@@ -13,16 +13,9 @@ import { useNavigate } from "react-router-dom";
 function Home() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 900], ["0%", "40%"]);
-  const headingRef = useRef(null);
-  const divOneRef = useRef(null);
-  const isHeadingInView = useInView(headingRef, { amount: "all" });
-  const { scrollYProgress } = useScroll({
-    target: divOneRef,
-  });
-  const translateHeading = useTransform(scrollY, [0, 500], ["-40%", "1%"]);
-  const translateOne = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const translateTwo = useTransform(scrollYProgress, [0, 1], ["80%", "0%"]);
-  const translateThree = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+
+  
+  
   const navigate = useNavigate();
   const handleNavigate = (event: MouseEvent, path: string) => {
     event.preventDefault();

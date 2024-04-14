@@ -1,8 +1,7 @@
 import Navbar from "@/components/custom/Navbar";
-import React, { useState, useRef } from "react";
-import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
-import { GiPaperWindmill } from "react-icons/gi";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { Autocomplete } from "@react-google-maps/api";
+
 import {
   Card,
   CardContent,
@@ -14,15 +13,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { MdWindPower } from "react-icons/md";
-import { FaTemperatureHigh } from "react-icons/fa";
-import { LuWind } from "react-icons/lu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+
 import {
   Dialog,
   DialogContent,
@@ -33,22 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { FaSearchLocation } from "react-icons/fa";
 
-type formdata = {
-  Air_temperature: string;
-  Pressure: string;
-  Wind_speed: string;
-};
-
 function LocationPrediction() {
-  const [formData, setFormData] = useState<formdata>({
-    Air_temperature: "",
-    Pressure: "",
-    Wind_speed: "",
-  });
-
-  const [prediction, setPrediction] = useState<string>("");
-
-
   // const { isLoaded } = useJsApiLoader({
   //   id: "google-map-script",
   //   googleMapsApiKey: import.meta.env.VITE_GOOGLE_PLACES_API_KEY,
@@ -68,8 +44,7 @@ function LocationPrediction() {
       console.log("Search : ", place);
       const latitude = place.geometry?.location?.lat();
       const longitude = place.geometry?.location?.lng();
-      console.log(latitude,longitude);
-      
+      console.log(latitude, longitude);
     }
   }
 
@@ -139,7 +114,6 @@ function LocationPrediction() {
                           id="name"
                           className="mt-4 text-black text-lg"
                           disabled
-                          value={prediction}
                         />
                       </DialogDescription>
                     </DialogHeader>

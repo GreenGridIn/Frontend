@@ -1,15 +1,9 @@
-import React, { useState, MouseEvent } from "react";
-import { Button } from "../ui/button";
-import { NavLink, useNavigate } from "react-router-dom";
+
+import { NavLink } from "react-router-dom";
 import { GiPaperWindmill } from "react-icons/gi";
-import { FaHandHoldingDollar } from "react-icons/fa6";
-import ResponsiveNavbar from "./ResponsiveNavbar";
 function Navbar() {
-  const navigate = useNavigate();
-  const handleClick = (e: MouseEvent) => {
-    e.preventDefault();
-    navigate("/prediction");
-  };
+  
+  
 
   return (
     <>
