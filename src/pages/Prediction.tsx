@@ -1,5 +1,5 @@
 import Navbar from "@/components/custom/Navbar";
-import React, { useState } from "react";
+import React, { FormEvent, MouseEvent, useState } from "react";
 import { GiPaperWindmill } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 import {
@@ -30,29 +30,58 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import axios from "axios";
 
 type formdata = {
-  Air_temperature: string;
-  Pressure: string;
-  Wind_speed: string;
+  air_temperature: number;
+  pressure: number;
+  wind_speed: number;
 };
 
 function Prediction() {
-  const [formData, setFormData] = useState<formdata>({
-    Air_temperature: "",
-    Pressure: "",
-    Wind_speed: "",
-  });
+  const [temperature, setTemperature] = useState(0);
+  const [pressure, setPressure] = useState(0);
+  const [windspeed, setWindspeed] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const [prediction, setPrediction] = useState<string>("");
+  const [prediction, setPrediction] = useState(0);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const data: formdata = {
+      air_temperature: temperature,
+      pressure: pressure,
+      wind_speed: windspeed,
+    };
+
+    axios
+      .post("/predict", data)
+      .then((res) => {
+        console.log(res.data.power);
+        if (res.status === 200) {
+          setPrediction(Number(res.data?.power));
+          setIsOpen(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const onClose = ()=>{
+    setIsOpen(false);
+  }
 
   return (
-    <div className="">
-      <Navbar />
+    <div className="relative">
+      <div className="">
+        <Navbar />
+      </div>
+
       <div className="bg-black">
         <section className="container grid grid-cols-1 lg:grid-cols-2 py-28 gap-8  w-full">
           <div className="flex flex-col items-center justify-center">
-            <p className="font-light text-white text-lg p-4  bg-gray-800 backdrop-blur-md bg-opacity-50 rounded-lg ">
+            <p className="font-light text-white text-lg p-4  bg-gray-800 backdrop-blur-md bg-opacity-50 rounded-lg z-10 ">
               Uncertain wind conditions can make it challenging to predict power
               generation from your windmill. But what if you could leverage
               cutting-edge technology to make informed decisions? Our website
@@ -102,36 +131,55 @@ function Prediction() {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <Card className="w-[350px]">
+            <Card className="w-full lg:w-[350px]">
               <CardHeader>
                 <CardTitle>Predict power generation</CardTitle>
                 <CardDescription className="flex flex-col items-center gap-1">
-                  <p>Enter the current data to predict power generation</p>
+                  Enter the current data to predict power generation
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="grid w-full items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
                       <Label htmlFor="name">Tempertaure(°C)</Label>
-                      <Input id="name" placeholder="e.g. 32°C" />
+                      <Input
+                        type="number"
+                        step="0.001"
+                        id="name"
+                        placeholder="e.g. 32°C"
+                        onChange={(e) => setTemperature(Number(e.target.value))}
+                      />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                       <Label htmlFor="name">Pressure(atm)</Label>
-                      <Input id="name" placeholder="e.g. 1.05 atm" />
+                      <Input
+                        type="number"
+                        step="0.001"
+                        id="name"
+                        placeholder="e.g. 1.05 atm"
+                        onChange={(e) => setPressure(Number(e.target.value))}
+                      />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                       <Label htmlFor="name">Wind Speed(m/s)</Label>
-                      <Input id="name" placeholder="e.g. 10.8 m/s" />
+                      <Input
+                        type="number"
+                        step="0.001"
+                        id="name"
+                        placeholder="e.g. 10.8 m/s"
+                        onChange={(e) => setWindspeed(Number(e.target.value))}
+                      />
                     </div>
                   </div>
+                  <Button type="submit" className="w-full mt-4">
+                    Predict
+                  </Button>
                 </form>
               </CardContent>
               <CardFooter className="flex flex-col justify-between">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button className="w-full">Predict</Button>
-                  </DialogTrigger>
+                <Dialog onOpenChange={onClose} defaultOpen={false} open={isOpen}>
+                  <DialogTrigger></DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>
